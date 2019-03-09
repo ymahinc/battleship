@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="battleship.qrc">
-    <normaloff>:/pictures/bs.jpg</normaloff>:/pictures/bs.jpg</iconset>
+    <normaloff>:/pictures/layout_horizontal.png</normaloff>:/pictures/layout_horizontal.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
@@ -316,7 +316,7 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset resource="battleship.qrc">
+    <iconset>
      <normaloff>:/pictures/printer.png</normaloff>:/pictures/printer.png</iconset>
    </property>
    <property name="text">
