@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Battleship -New</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="battleship.qrc">
+    <normaloff>:/pictures/layout_horizontal.png</normaloff>:/pictures/layout_horizontal.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: white; </string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="1">
+       <widget class="QLabel" name="topLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="leftLabel">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="styleSheet">
+         <string notr="true">gridline-color: black;</string>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="dragEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuChoosePictures">
+    <property name="title">
+     <string>Edition</string>
+    </property>
+    <addaction name="actionChooseColumnPictures"/>
+    <addaction name="actionChooseLinePictures"/>
+    <addaction name="actionChooseCornerPictures"/>
+    <addaction name="actionChooseContentPictures"/>
+    <addaction name="actionChooseTopPicture"/>
+    <addaction name="actionChooseLeftPicture"/>
+    <addaction name="separator"/>
+    <addaction name="actionRemoveCornerPictures"/>
+    <addaction name="actionRemoveContentPictures"/>
+    <addaction name="actionRemoveLeftPicture"/>
+    <addaction name="actionRemoveTopPicture"/>
+   </widget>
+   <widget class="QMenu" name="menuMode">
+    <property name="title">
+     <string>Mode</string>
+    </property>
+    <addaction name="actionEdit"/>
+    <addaction name="actionPlay"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Outils</string>
+    </property>
+    <addaction name="actionRefresh"/>
+    <addaction name="separator"/>
+    <addaction name="actionOptions"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
+    <addaction name="actionPrint"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuChoosePictures"/>
+   <addaction name="menuMode"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionPrint"/>
+   <addaction name="separator"/>
+   <addaction name="actionEdit"/>
+   <addaction name="actionPlay"/>
+   <addaction name="separator"/>
+   <addaction name="actionRefresh"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionChooseColumnPictures">
+   <property name="text">
+    <string>Choisir les entêtes de colonnes</string>
+   </property>
+  </action>
+  <action name="actionChooseLinePictures">
+   <property name="text">
+    <string>Choisir les entêtes de lignes</string>
+   </property>
+  </action>
+  <action name="actionChooseCornerPictures">
+   <property name="text">
+    <string>Choisir les images du coin</string>
+   </property>
+  </action>
+  <action name="actionChooseContentPictures">
+   <property name="text">
+    <string>Choisir les images du contenu</string>
+   </property>
+  </action>
+  <action name="actionEdit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/edit.png</normaloff>:/pictures/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edition</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/media_play_green.png</normaloff>:/pictures/media_play_green.png</iconset>
+   </property>
+   <property name="text">
+    <string>Jeu</string>
+   </property>
+  </action>
+  <action name="actionRemoveCornerPictures">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Enlever les images de coin</string>
+   </property>
+  </action>
+  <action name="actionRemoveContentPictures">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Enlever les images de contenu</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/refresh.png</normaloff>:/pictures/refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rafraichir</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="text">
+    <string>Options...</string>
+   </property>
+  </action>
+  <action name="actionChooseTopPicture">
+   <property name="text">
+    <string>Choisir l'image du haut...</string>
+   </property>
+  </action>
+  <action name="actionChooseLeftPicture">
+   <property name="text">
+    <string>Choisir l'image de gauche...</string>
+   </property>
+  </action>
+  <action name="actionRemoveLeftPicture">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Enlever l'image de gauche</string>
+   </property>
+  </action>
+  <action name="actionRemoveTopPicture">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Enlever l'image du haut</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/document_add.png</normaloff>:/pictures/document_add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Nouveau</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/folder.png</normaloff>:/pictures/folder.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ouvrir</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/disk_blue.png</normaloff>:/pictures/disk_blue.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enregistrer</string>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/disks.png</normaloff>:/pictures/disks.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enregistrer sous...</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/door.png</normaloff>:/pictures/door.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="icon">
+    <iconset resource="battleship.qrc">
+     <normaloff>:/pictures/printer.png</normaloff>:/pictures/printer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Imprimer...</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="battleship.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pictures/layout_horizontal.png</file>
+        <file>pictures/cross.png</file>
+        <file>pictures/refresh.png</file>
+        <file>pictures/disk_blue.png</file>
+        <file>pictures/disks.png</file>
+        <file>pictures/document_add.png</file>
+        <file>pictures/folder.png</file>
+        <file>pictures/door.png</file>
+        <file>pictures/edit.png</file>
+        <file>pictures/media_play_green.png</file>
+        <file>pictures/printer.png</file>
+    </qresource>
+</RCC>
