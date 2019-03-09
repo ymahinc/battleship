@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="battleship.qrc">
-    <normaloff>:/pictures/layout_horizontal.png</normaloff>:/pictures/layout_horizontal.png</iconset>
+    <normaloff>:/pictures/bs.jpg</normaloff>:/pictures/bs.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">

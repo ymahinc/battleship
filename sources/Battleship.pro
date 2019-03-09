@@ -50,4 +50,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     battleship.qrc
 
-RC_ICONS = layout.ico
+RC_ICONS = bs.ico
