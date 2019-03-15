@@ -216,6 +216,8 @@ void MainWindow::openFile(){
 void MainWindow::openFile(QString file){
     QString fileName = file;
 
+    clearGame();
+
     QFile f(fileName);
     f.open(QIODevice::ReadOnly);
     QDataStream in(&f);
