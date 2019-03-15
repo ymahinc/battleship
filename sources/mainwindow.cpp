@@ -79,7 +79,6 @@ MainWindow::MainWindow(QString file, QWidget *parent)
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(print()));
-   // connect(ui->actionRecent,SIGNAL())
 
     if ( ! file.isEmpty() )
         openFile(file);
@@ -99,8 +98,18 @@ void MainWindow::readSettings(){
 void MainWindow::openRecentFile()
 {
     QAction *action = qobject_cast<QAction *>(sender());
-    if (action)
-        openFile(action->data().toString());
+    if (action){
+        if ( QFile(action->data().toString()).exists() ){
+            openFile(action->data().toString());
+        } else {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Fichier introuvable."));
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.exec();
+        }
+    }
 }
 
 void MainWindow::updateRecentFileActions()
@@ -120,6 +129,8 @@ void MainWindow::updateRecentFileActions()
 
     for (auto i = itEnd; i < MaxRecentFiles; ++i)
         recentFileActionList.at(i)->setVisible(false);
+
+    ui->actionRecent->setEnabled(m_recentFilesList.count());
 }
 
 QString MainWindow::strippedName(const QString &fullFileName)
@@ -129,7 +140,7 @@ QString MainWindow::strippedName(const QString &fullFileName)
 
 void MainWindow::print(){
     QPrinter printer;
-    printer.setResolution(600);
+    printer.setResolution(1200);
 
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Imprimer"));
@@ -137,8 +148,8 @@ void MainWindow::print(){
         return;
 
     QPainter painter;
-    painter.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::LosslessImageRendering,true);
     painter.begin(&printer);
+    painter.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::LosslessImageRendering,true);
     painter.save();
     double xscale = printer.pageRect().width()/double(ui->centralWidget->width());
     double yscale = printer.pageRect().height()/double(ui->centralWidget->height());
