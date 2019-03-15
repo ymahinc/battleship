@@ -15,6 +15,24 @@ MainWindow::MainWindow(QString file, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
 
+    readSettings();
+
+    QAction* recentFileAction = 0;
+    for(auto i = 0; i < MaxRecentFiles; ++i){
+        recentFileAction = new QAction(this);
+        recentFileAction->setVisible(false);
+        connect(recentFileAction,SIGNAL(triggered()),this, SLOT(openRecentFile()));
+        recentFileActionList.append(recentFileAction);
+    }
+
+    m_recentMenu = new QMenu(this);
+
+    ui->actionRecent->setMenu(m_recentMenu);
+    for(auto i = 0; i < MaxRecentFiles; ++i)
+        m_recentMenu->addAction(recentFileActionList.at(i));
+
+    updateRecentFileActions();
+
     m_fileIsModified = false;
     m_currentFileName = "";
 
@@ -61,6 +79,7 @@ MainWindow::MainWindow(QString file, QWidget *parent)
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(newFile()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openFile()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(print()));
+   // connect(ui->actionRecent,SIGNAL())
 
     if ( ! file.isEmpty() )
         openFile(file);
@@ -70,8 +89,47 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
+void MainWindow::readSettings(){
+    QSettings settings("Yan", "Battleship");
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+    m_recentFilesList = settings.value("recentFileList").toStringList();
+}
+
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+        openFile(action->data().toString());
+}
+
+void MainWindow::updateRecentFileActions()
+{
+    auto itEnd = 0;
+    if(m_recentFilesList.size() <= MaxRecentFiles)
+        itEnd = m_recentFilesList.size();
+    else
+        itEnd = MaxRecentFiles;
+
+    for (auto i = 0; i < itEnd; ++i) {
+        QString strippedName = QFileInfo(m_recentFilesList.at(i)).fileName();
+        recentFileActionList.at(i)->setText(strippedName);
+        recentFileActionList.at(i)->setData(m_recentFilesList.at(i));
+        recentFileActionList.at(i)->setVisible(true);
+    }
+
+    for (auto i = itEnd; i < MaxRecentFiles; ++i)
+        recentFileActionList.at(i)->setVisible(false);
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
+}
+
 void MainWindow::print(){
     QPrinter printer;
+    printer.setResolution(600);
 
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Imprimer"));
@@ -79,14 +137,29 @@ void MainWindow::print(){
         return;
 
     QPainter painter;
+    painter.setRenderHints(QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::LosslessImageRendering,true);
     painter.begin(&printer);
+    painter.save();
     double xscale = printer.pageRect().width()/double(ui->centralWidget->width());
     double yscale = printer.pageRect().height()/double(ui->centralWidget->height());
     double scale = qMin(xscale, yscale);
-    painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,
+    /*painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,
                       printer.paperRect().y() + printer.pageRect().height()/2);
     painter.scale(scale, scale);
     painter.translate(-width()/2, -height()/2);
+
+    ui->centralWidget->render(&painter);*/
+
+    painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,0);
+    painter.scale(scale, scale);
+    painter.translate(-width()/2, 0);
+
+    ui->centralWidget->render(&painter);
+
+    painter.restore();
+    painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,0);
+    painter.scale(scale, scale);
+    painter.translate(-width()/2,height());
 
     ui->centralWidget->render(&painter);
 }
@@ -252,6 +325,21 @@ void MainWindow::openFile(QString file){
 
     ui->actionPlay->setChecked(true);
     changeMode();
+
+    updateRecentFiles();
+}
+
+void MainWindow::updateRecentFiles(){
+    QSettings settings("Yan", "Battleship");
+    QStringList recentFilePaths = settings.value("recentFileList").toStringList();
+    recentFilePaths.removeAll(m_currentFileName);
+    recentFilePaths.prepend(m_currentFileName);
+    while (recentFilePaths.size() > MaxRecentFiles)
+        recentFilePaths.removeLast();
+    settings.setValue("recentFileList", recentFilePaths);
+    m_recentFilesList = recentFilePaths;
+
+    updateRecentFileActions();
 }
 
 void MainWindow::newFile(){
@@ -322,6 +410,9 @@ void MainWindow::closeEvent(QCloseEvent *event){
                 break;
           }
     }else{
+        QSettings settings("Yan", "Battleship");
+        settings.setValue("geometry", saveGeometry());
+        settings.setValue("windowState", saveState());
         event->accept();
     }
 }
@@ -408,6 +499,8 @@ void MainWindow::saveFile(QString fileName){
 
     setWindowTitle(QString("BattleShip - %1").arg(shortName));
     m_fileIsModified = false;
+
+    updateRecentFiles();
 }
 
 void MainWindow::onCheckModified(){
@@ -503,7 +596,7 @@ QStringList MainWindow::getSelectedFiles(bool multipleSelection){
         dialog.setFileMode(QFileDialog::ExistingFiles);
     else
         dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Images (*.png *.xpm *.jpg)"));
+    dialog.setNameFilter(tr("Images (*.png *.bmp *.gif *.jpg)"));
     dialog.setViewMode(QFileDialog::Detail);
     if ( m_lastOpenDir.isEmpty() )
         dialog.setDirectory(QDir::homePath());

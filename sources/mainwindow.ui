@@ -141,6 +141,8 @@
     <addaction name="actionSaveAs"/>
     <addaction name="actionPrint"/>
     <addaction name="separator"/>
+    <addaction name="actionRecent"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -316,11 +318,16 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset>
+    <iconset resource="battleship.qrc">
      <normaloff>:/pictures/printer.png</normaloff>:/pictures/printer.png</iconset>
    </property>
    <property name="text">
     <string>Imprimer...</string>
+   </property>
+  </action>
+  <action name="actionRecent">
+   <property name="text">
+    <string>Récents</string>
    </property>
   </action>
  </widget>

@@ -41,6 +41,8 @@ private slots:
     void openFile(QString file);
     void print();
     void onCheckModified();
+    void readSettings();
+    void openRecentFile();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -56,10 +58,18 @@ private:
     bool m_refreshContentOnClic;
     bool m_fileIsModified;
     QString m_currentFileName;
+    enum { MaxRecentFiles = 5 };
+    QAction *recentFileActs[MaxRecentFiles];
+    QMenu *m_recentMenu;
+    QStringList m_recentFilesList;
+    QList<QAction *> recentFileActionList;
 
     QStringList getSelectedFiles(bool multipleSelection = true);
+    QString strippedName(const QString &fullFileName);
+    void updateRecentFileActions();
     void saveFile(QString fileName);
     void clearGame();
+    void updateRecentFiles();
 };
 
 #endif // MAINWINDOW_H
